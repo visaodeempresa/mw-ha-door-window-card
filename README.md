@@ -63,7 +63,7 @@ traduzido pelo próprio HA e a bateria é descoberta pelo dispositivo do sensor.
 |---|---|
 | **Dispositivo (porta/janela)** | Lista só os dispositivos que têm alguma entidade de porta/janela (`device_class` `door`, `window`, `garage_door` ou `opening`). |
 | **Entidade de porta/janela** | Filtrada pelo dispositivo escolhido. Sem dispositivo, lista todas as portas/janelas da casa; se a integração não expuser nenhuma, lista todos os `binary_sensor`. |
-| **Sensor de bateria** | Começa em branco. Escolhido o dispositivo, lista **os sensores daquele dispositivo**; sem dispositivo conhecido, lista todos os sensores de bateria; em último caso, todos os sensores. A opção **— nenhum —** limpa o campo. |
+| **Sensor de bateria** | Começa em branco. Escolhido o dispositivo, lista **os sensores daquele dispositivo**; sem dispositivo conhecido, lista todos os sensores de bateria; em último caso, todos os sensores. A opção **— nenhum —** limpa o campo **e** desliga a descoberta automática (senão a bateria voltaria sozinha). |
 
 Trocar de dispositivo limpa a entidade e a bateria do dispositivo antigo e já
 seleciona a primeira porta/janela do novo — sem configuração órfã.
