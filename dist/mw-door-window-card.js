@@ -705,7 +705,7 @@
     documentationURL: "https://github.com/visaodeempresa/mw-ha-door-window-card",
   });
 
-  console.info("%c MW-DOOR-WINDOW-CARD %c 0.1.0 ",
+  console.info("%c MW-DOOR-WINDOW-CARD %c 0.1.1 ",
     "background:#1a1a1a;color:#fdfaf3;font-weight:700;",
     "background:#9acd32;color:#1a1a1a;font-weight:700;");
 })();
