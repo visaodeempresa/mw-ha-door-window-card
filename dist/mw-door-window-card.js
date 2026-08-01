@@ -96,6 +96,7 @@
   // ícone da bateria por faixa de 10% (mesma escala do mdi)
   const batteryIcon = (v) => {
     if (v >= 95) return "mdi:battery";
+    if (v < 5) return "mdi:battery-outline";
     const step = Math.max(10, Math.floor(v / 10) * 10);
     return `mdi:battery-${step}`;
   };
@@ -661,12 +662,16 @@
       ev.stopPropagation();
       const v = { ...ev.detail.value };
       const clean = {};
+      let noBattery = false;
       for (const [k, val] of Object.entries(v)) {
         // campo limpo volta ao default em vez de gravar `chave: null` no YAML
         if (val === undefined || val === null || val === "") continue;
-        if (k === "battery_entity" && val === NO_BATTERY) continue;
+        // "— nenhum —" não pode ser desfeito pela descoberta automática:
+        // limpar o campo e deixar battery_auto ligado traria a bateria de volta
+        if (k === "battery_entity" && val === NO_BATTERY) { noBattery = true; continue; }
         if (k === "entity" || k === "device" || val !== DEFAULTS[k]) clean[k] = val;
       }
+      if (noBattery) { delete clean.battery_entity; clean.battery_auto = false; }
       // trocar de dispositivo invalida entidade e bateria do dispositivo antigo
       if (clean.device && clean.device !== this._config.device) {
         if (clean.entity && deviceOf(this._hass, clean.entity) !== clean.device) delete clean.entity;

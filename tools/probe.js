@@ -137,7 +137,23 @@ edAll._onChange({
 });
 const out = captured[0];
 check("defaults fora do YAML", JSON.stringify(out) ===
-  JSON.stringify({ entity: "binary_sensor.porta_cozinha", gap: 9 }), JSON.stringify(out));
+  JSON.stringify({ entity: "binary_sensor.porta_cozinha", gap: 9, battery_auto: false }),
+  JSON.stringify(out));
+check("'— nenhum —' desliga a descoberta automática", out.battery_auto === false &&
+  out.battery_entity === undefined);
+
+const noBat = new reg["mw-door-window-card"]();
+noBat.setConfig({ entity: "binary_sensor.porta_cozinha", battery_auto: false });
+noBat.hass = hass;
+check("battery_auto:false não inventa bateria", noBat.shadowRoot.innerHTML.includes("--%"));
+
+const drained = new reg["mw-door-window-card"]();
+drained.setConfig({ entity: "binary_sensor.porta_cozinha", battery_entity: "sensor.zerada" });
+hass.states["sensor.zerada"] = { state: "2", attributes: { device_class: "battery" } };
+drained.hass = hass;
+check("2% usa mdi:battery-outline em vermelho",
+  drained.shadowRoot.innerHTML.includes("mdi:battery-outline") &&
+  drained.shadowRoot.innerHTML.includes("#e53935"));
 
 console.log(fails ? `\n${fails} verificação(ões) falharam` : "\ntudo ok");
 process.exit(fails ? 1 : 0);
