@@ -1,0 +1,6 @@
+{
+  "name": "MW Door / Window Card",
+  "filename": "mw-door-window-card.js",
+  "render_readme": true,
+  "homeassistant": "2024.4.0"
+}

@@ -1,0 +1,65 @@
+# Tudo o que dá para mexer, num card só — serve de referência de propriedades.
+type: custom:mw-door-window-card
+entity: binary_sensor.suite_janela_direita_da_suite
+battery_entity: sensor.janela_direita_da_suite_bateria
+name: JANELA DIR.
+invert: false
+secondary_info: last-changed
+
+# mostrar / esconder
+show_icon: true
+show_name: true
+show_state: true
+show_battery: true
+
+# ícones e textos
+icon_open: mdi:window-open-variant
+icon_closed: mdi:window-closed-variant
+icon_unavailable: mdi:help-rhombus-outline
+text_open: ABERTA
+text_closed: FECHADA
+text_unavailable: SEM SINAL
+
+# tamanhos e forma
+icon_size: 34
+name_size: 10
+state_size: 12
+battery_size: 13
+battery_icon_size: 20
+border_radius: 12
+padding: 5
+gap: 6
+height: ""
+gradient: true
+shadow: true
+lift: true
+
+# cores
+color_open_bg: rgba(154, 205, 50, 0.8)
+color_open_border: rgba(154, 205, 50, 1)
+color_closed_bg: rgba(255, 99, 71, 0.8)
+color_closed_border: rgba(255, 99, 71, 1)
+color_unavailable_bg: rgba(120, 120, 120, 0.55)
+color_unavailable_border: rgba(160, 160, 160, 0.9)
+color_name: "#ffffff"
+color_state: rgba(0, 0, 0, 0.7)
+color_icon: "#ffffff"
+color_battery_text: "#ffffff"
+color_battery_low: "#e53935"
+color_battery_medium: "#fdd835"
+color_battery_high: "#9ccc65"
+color_battery_full: "#43a047"
+
+# bateria
+battery_show_percent: true
+battery_rotate: true
+battery_low: 20
+battery_medium: 50
+battery_high: 70
+
+# ações
+tap_action: more-info
+hold_action: toggle
+double_tap_action: none
+navigation_path: ""
+url_path: ""

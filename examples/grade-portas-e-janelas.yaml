@@ -1,0 +1,24 @@
+# Painel de aberturas: duas colunas, cards não quadrados.
+type: grid
+columns: 2
+square: false
+cards:
+  - type: custom:mw-door-window-card
+    entity: binary_sensor.cozinha_porta_da_cozinha
+    name: COZINHA
+  - type: custom:mw-door-window-card
+    entity: binary_sensor.porta_do_quarto
+    name: QUARTO
+  - type: custom:mw-door-window-card
+    entity: binary_sensor.porta_da_suite
+    name: SUÍTE
+  - type: custom:mw-door-window-card
+    entity: binary_sensor.seguranca_porta_do_apartamento
+    name: APARTAMENTO
+    secondary_info: last-changed
+  - type: custom:mw-door-window-card
+    entity: binary_sensor.janela_esquerda_do_escritorio
+    name: ESCRITÓRIO ESQ.
+  - type: custom:mw-door-window-card
+    entity: binary_sensor.janela_direita_do_escritorio
+    name: ESCRITÓRIO DIR.

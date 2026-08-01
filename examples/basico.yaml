@@ -1,0 +1,4 @@
+# O mínimo: ícone, nome, estado e bateria vêm sozinhos.
+type: custom:mw-door-window-card
+entity: binary_sensor.cozinha_porta_da_cozinha
+name: PORTA
