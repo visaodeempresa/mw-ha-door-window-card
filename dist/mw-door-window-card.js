@@ -42,6 +42,9 @@
     gradient: true,
     shadow: true,
     lift: true,
+    // theme = fio discreto do tema (o mesmo do mw-temp-humidity-card) ·
+    // glass = fio de vidro branco · status = anel colorido pelo estado (antigo)
+    border_mode: "theme",
     // --- cores ---
     color_open_bg: "rgba(154, 205, 50, 0.8)",
     color_open_border: "rgba(154, 205, 50, 1)",
@@ -203,7 +206,11 @@
       if (!config || !config.entity) {
         throw new Error("mw-door-window-card: defina a propriedade 'entity'");
       }
-      this._config = { ...DEFAULTS, ...config };
+      // YAML de antes da borda discreta que já escolheu cor de borda na mão
+      // continua com o anel colorido: ninguém acorda com outro card.
+      const legacy = !("border_mode" in config)
+        && Object.keys(config).some((k) => /^color_(open|closed|unavailable)_border$/.test(k));
+      this._config = { ...DEFAULTS, ...config, ...(legacy ? { border_mode: "status" } : {}) };
       this._key = null;
       if (this._hass) this._render();
     }
@@ -299,8 +306,13 @@
         : (c.icon_closed || pair[1]);
 
       const bg = dead ? c.color_unavailable_bg : open ? c.color_open_bg : c.color_closed_bg;
-      const border = dead ? c.color_unavailable_border
-        : open ? c.color_open_border : c.color_closed_border;
+      // Borda igual à do mw-temp-humidity-card: um fio só, discreto, deixando a
+      // cor do estado inteira para o fundo — o anel saturado brigava com ela.
+      const bmode = c.border_mode || DEFAULTS.border_mode;
+      const border = bmode === "status"
+        ? (dead ? c.color_unavailable_border : open ? c.color_open_border : c.color_closed_border)
+        : bmode === "glass" ? "rgba(255,255,255,0.16)"
+        : "var(--divider-color)";
 
       // grade dinâmica: colunas e linhas só existem para o que está visível
       const showIcon = c.show_icon !== false;
@@ -448,6 +460,7 @@
     battery_size: "Tamanho do texto da bateria",
     battery_icon_size: "Tamanho do ícone da bateria",
     border_radius: "Arredondamento da borda",
+    border_mode: "Estilo da borda",
     padding: "Folga interna",
     gap: "Recuo do texto",
     height: "Altura do card (vazio = automática)",
@@ -465,11 +478,11 @@
     navigation_path: "Caminho para navegar (ação Navegar)",
     url_path: "Endereço para abrir (ação Abrir link)",
     color_open_bg: "Aberto: fundo",
-    color_open_border: "Aberto: borda",
+    color_open_border: "Aberto: borda (só no estilo colorido)",
     color_closed_bg: "Fechado: fundo",
-    color_closed_border: "Fechado: borda",
+    color_closed_border: "Fechado: borda (só no estilo colorido)",
     color_unavailable_bg: "Indisponível: fundo",
-    color_unavailable_border: "Indisponível: borda",
+    color_unavailable_border: "Indisponível: borda (só no estilo colorido)",
     color_name: "Nome: texto",
     color_state: "Estado: texto",
     color_icon: "Ícone",
@@ -484,6 +497,12 @@
     "color_closed_border", "color_unavailable_bg", "color_unavailable_border",
     "color_name", "color_state", "color_icon", "color_battery_text",
     "color_battery_low", "color_battery_medium", "color_battery_high", "color_battery_full"];
+
+  const BORDER_MODES = [
+    { value: "theme", label: "Discreta, do tema (igual ao card de temperatura)" },
+    { value: "glass", label: "Fio de vidro (branco translúcido)" },
+    { value: "status", label: "Colorida pelo estado (aberto / fechado)" },
+  ];
 
   const ACTIONS = [
     { value: "more-info", label: "Abrir detalhes (more-info)" },
@@ -566,6 +585,7 @@
             { name: "state_size", selector: num(6, 40) },
             { name: "battery_size", selector: num(6, 40) },
             { name: "border_radius", selector: num(0, 60) },
+            { name: "border_mode", selector: { select: { mode: "dropdown", options: BORDER_MODES } } },
             { name: "padding", selector: num(0, 40) },
             { name: "gap", selector: num(0, 40) },
             { name: "height", selector: { text: {} } },

@@ -25,6 +25,11 @@ Regras da família: `IA/rules/projects/mw-ha-cards.md`.
   com `name` preenchido o `ha-form` aninha o `data` e o card não lê mais.
 - Bloco de cores (`COLOR_FIELDS` + `<details>`) — mesmo padrão dos cards irmãos
   (`a==1` grava hex, senão `rgba(...)`).
+- `border_mode` (v0.2.0) — `theme` (padrão, `var(--divider-color)`, igual ao
+  `mw-temp-humidity-card`) · `glass` (`rgba(255,255,255,0.16)`) · `status` (o
+  anel colorido antigo). `setConfig` assume `status` sozinho quando o YAML traz
+  algum `color_*_border` e não traz `border_mode` — **não regredir**: é o que
+  impede o card do dono de mudar sozinho.
 
 ## Fluxo
 

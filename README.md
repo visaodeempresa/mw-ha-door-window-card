@@ -123,6 +123,7 @@ Números são pixels; texto com unidade (`2em`, `100%`) passa direto.
 | `battery_size` | número | `13` | Fonte do percentual. |
 | `battery_icon_size` | número | `20` | Ícone da bateria. |
 | `border_radius` | número | `10` | Arredondamento. |
+| `border_mode` | `theme`/`glass`/`status` | `theme` | Estilo da borda — ver abaixo. |
 | `padding` | número | `4` | Folga interna. |
 | `gap` | número | `5` | Recuo do texto em relação ao ícone. |
 | `height` | número/string | `""` | Vazio = altura automática. |
@@ -130,16 +131,31 @@ Números são pixels; texto com unidade (`2em`, `100%`) passa direto.
 | `shadow` | bool | `true` | Sombra em relevo. |
 | `lift` | bool | `true` | Card 1 px levantado. |
 
+#### Estilo da borda (`border_mode`)
+
+A borda é a mesma do `custom:mw-temp-humidity-card`: um fio discreto, deixando
+a cor do estado inteira para o fundo.
+
+| Valor | O que desenha |
+|---|---|
+| `theme` (padrão) | `1px solid var(--divider-color)` — segue o tema, claro ou escuro. |
+| `glass` | `1px solid rgba(255,255,255,0.16)` — fio de vidro, para fundos escuros. |
+| `status` | Anel colorido pelo estado, usando `color_*_border` (comportamento até a v0.1.1). |
+
+YAML anterior à v0.2.0 que já definia `color_open_border`, `color_closed_border`
+ou `color_unavailable_border` continua em `status` automaticamente — quem pintou
+a borda na mão não perde o que fez.
+
 ### Cores
 
 | Propriedade | Padrão |
 |---|---|
 | `color_open_bg` | `rgba(154, 205, 50, 0.8)` |
-| `color_open_border` | `rgba(154, 205, 50, 1)` |
+| `color_open_border` | `rgba(154, 205, 50, 1)` (só com `border_mode: status`) |
 | `color_closed_bg` | `rgba(255, 99, 71, 0.8)` |
-| `color_closed_border` | `rgba(255, 99, 71, 1)` |
+| `color_closed_border` | `rgba(255, 99, 71, 1)` (só com `border_mode: status`) |
 | `color_unavailable_bg` | `rgba(120, 120, 120, 0.55)` |
-| `color_unavailable_border` | `rgba(160, 160, 160, 0.9)` |
+| `color_unavailable_border` | `rgba(160, 160, 160, 0.9)` (só com `border_mode: status`) |
 | `color_name` | `#ffffff` |
 | `color_state` | `rgba(0, 0, 0, 0.7)` |
 | `color_icon` | `#ffffff` |
@@ -206,12 +222,16 @@ tap_action: none
 ```yaml
 type: custom:mw-door-window-card
 entity: binary_sensor.portao_da_garagem
+border_mode: status
 color_open_bg: rgba(255, 99, 71, 0.85)
 color_open_border: rgba(255, 99, 71, 1)
 color_closed_bg: rgba(154, 205, 50, 0.8)
 color_closed_border: rgba(154, 205, 50, 1)
 secondary_info: last-changed
 ```
+
+(O `border_mode: status` está explícito, mas seria assumido de qualquer forma:
+definir cor de borda já liga o anel colorido.)
 
 ### 4. Grade de portas e janelas
 
