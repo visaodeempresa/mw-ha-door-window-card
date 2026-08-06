@@ -87,6 +87,25 @@ check("nome renderizado", html.includes(">PORTA<"));
 check("ícone de porta aberta", html.includes("mdi:door-open"));
 check("bateria automática (53%)", html.includes("53%") && html.includes("mdi:battery-50"));
 check("fundo de aberto", html.includes("rgba(154, 205, 50, 0.8)"));
+check("borda discreta por padrão", html.includes("border:1px solid var(--divider-color)"));
+
+const glass = new reg["mw-door-window-card"]();
+glass.setConfig({ entity: "binary_sensor.porta_cozinha", border_mode: "glass" });
+glass.hass = hass;
+check("borda de vidro", glass.shadowRoot.innerHTML.includes("border:1px solid rgba(255,255,255,0.16)"));
+
+const ring = new reg["mw-door-window-card"]();
+ring.setConfig({ entity: "binary_sensor.porta_cozinha", border_mode: "status" });
+ring.hass = hass;
+check("estilo colorido mantém o anel do estado",
+  ring.shadowRoot.innerHTML.includes("border:1px solid rgba(154, 205, 50, 1)"));
+
+// quem já pintou a borda na mão não pode acordar com o card mudado
+const old = new reg["mw-door-window-card"]();
+old.setConfig({ entity: "binary_sensor.porta_cozinha", color_open_border: "#123456" });
+old.hass = hass;
+check("YAML antigo com cor de borda continua colorido",
+  old.shadowRoot.innerHTML.includes("border:1px solid #123456"));
 
 const closed = new reg["mw-door-window-card"]();
 closed.setConfig({ entity: "binary_sensor.janela_quarto" });
